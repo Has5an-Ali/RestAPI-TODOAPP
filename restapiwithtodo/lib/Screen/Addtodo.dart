@@ -89,6 +89,31 @@ class _AddTodoPageState extends State<AddTodoPage> {
     if (response.statusCode == 201) {
       titleController.text = '';
       descpController.text = '';
-    } else {}
+      showmessage('Added Sucessfully');
+    } else {
+      showerrormessage("Task Not Added!");
+    }
+  }
+
+  void showmessage(String? message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message!,
+        style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showerrormessage(String? message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message!,
+        style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
