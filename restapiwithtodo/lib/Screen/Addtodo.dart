@@ -29,9 +29,15 @@ class _AddTodoPageState extends State<AddTodoPage> {
   @override
   void initState() {
     super.initState();
-
-    if (widget.todo != null) {
+    final todo = widget.todo;
+    if (todo != null) {
       isEdit = true;
+
+      final title = todo['title'];
+      final description = todo['description'];
+
+      titleController.text = title;
+      descpController.text = description;
     }
   }
 
@@ -67,14 +73,41 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   backgroundColor: Vx.blue500,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5))),
-              onPressed: submitdata,
-              child: const Text(
-                "Submit",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+              onPressed: isEdit ? updatedata : submitdata,
+              child: Text(
+                isEdit ? "Update" : "Submit",
+                style: const TextStyle(color: Colors.white, fontSize: 18),
               ))
         ],
       ),
     );
+  }
+
+//Update Data
+  Future<void> updatedata() async {
+    final todo = widget.todo;
+    final id = todo?['_id'];
+
+    final title = titleController.text;
+    final description = descpController.text;
+    final body = {
+      'title': title,
+      'description': description,
+      'is_completed': false,
+    };
+
+    final url = "https://api.nstack.in/v1/todos/$id";
+
+    final uri = Uri.parse(url);
+
+    final response = await http.put(uri,
+        body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
+
+    //showing data
+
+    if (response.statusCode == 200) {
+      showmessage('Update  Sucessfully');
+    } else {}
   }
 
   Future<void> submitdata() async {
