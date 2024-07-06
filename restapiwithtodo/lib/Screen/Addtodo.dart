@@ -8,7 +8,8 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:http/http.dart' as http;
 
 class AddTodoPage extends StatefulWidget {
-  const AddTodoPage({super.key});
+  final Map? todo;
+  const AddTodoPage({super.key, this.todo});
 
   @override
   State<AddTodoPage> createState() => _AddTodoPageState();
@@ -17,6 +18,7 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descpController = TextEditingController();
+  bool isEdit = false;
   @override
   void dispose() {
     titleController.dispose();
@@ -25,10 +27,19 @@ class _AddTodoPageState extends State<AddTodoPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.todo != null) {
+      isEdit = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Todo Page"),
+        title: Text(isEdit ? "Edit Todo " : "Add Todo "),
         centerTitle: true,
         elevation: 2,
       ),
@@ -66,7 +77,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
     );
   }
 
-  void submitdata() async {
+  Future<void> submitdata() async {
     final title = titleController.text;
     final description = descpController.text;
     final body = {
