@@ -42,31 +42,36 @@ class _ToDoListpageState extends State<ToDoListpage> {
                 final item = items[index] as Map;
                 final id = item['_id'] as String;
                 return Center(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.green,
-                      child: Text("${index + 1}"),
-                    ),
-                    title: Text(item['title']),
-                    subtitle: Text(item['description']),
-                    trailing: PopupMenuButton(onSelected: (value) {
-                      if (value == 'Edit') {
-                        editpage(item);
-                      } else if (value == 'Delete') {
-                        deleteData(id);
-                      }
-                    }, itemBuilder: (context) {
-                      return [
-                        const PopupMenuItem(
-                          value: 'Edit',
-                          child: Text("Edit"),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.green,
+                          child: Text("${index + 1}"),
                         ),
-                        const PopupMenuItem(
-                          value: 'Delete',
-                          child: Text("Delete"),
-                        )
-                      ];
-                    }),
+                        title: Text(item['title']),
+                        subtitle: Text(item['description']),
+                        trailing: PopupMenuButton(onSelected: (value) {
+                          if (value == 'Edit') {
+                            editpage(item);
+                          } else if (value == 'Delete') {
+                            deleteData(id);
+                          }
+                        }, itemBuilder: (context) {
+                          return [
+                            const PopupMenuItem(
+                              value: 'Edit',
+                              child: Text("Edit"),
+                            ),
+                            const PopupMenuItem(
+                              value: 'Delete',
+                              child: Text("Delete"),
+                            )
+                          ];
+                        }),
+                      ),
+                    ),
                   ),
                 );
               }),
